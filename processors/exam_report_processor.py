@@ -25,19 +25,22 @@ class ExamReportProcessor(DocumentProcessor):
             return False
 
     def replace_flags(self):
-        """Замена флагов в документе."""
+        """Замена флагов в документе, включая таблицы."""
+        # Проход по всем параграфам документа
         for paragraph in self.doc.paragraphs:
             for flag, value in self.replacements.items():
                 if flag in paragraph.text:
                     paragraph.text = paragraph.text.replace(flag, str(value))
 
-        # Поиск таблицы
-        # if len(self.doc.tables):
-        #     print("есть таблица")
-        # else:print("нет таблицы")
-
-
-
+        # Проход по всем таблицам в документе
+        for table in self.doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    # Проход по всем параграфам в каждой ячейке
+                    for paragraph in cell.paragraphs:
+                        for flag, value in self.replacements.items():
+                            if flag in paragraph.text:
+                                paragraph.text = paragraph.text.replace(flag, str(value))
 
     def insert_table(self):
         """Вставка таблицы с данными студентов на место флага ${table}."""
@@ -77,9 +80,11 @@ class ExamReportProcessor(DocumentProcessor):
         table.cell(0, 4).text = headers[0]
 
         # Добавляем строки для каждого студента
+        n=0
         for student in self.students_data:
             row = table.add_row().cells
-            row[0].text = student.get('№', '')
+            n+=1
+            row[0].text = str(n)
             row[1].text = student.get('Фамилия и инициалы', '')
             row[2].text = student.get('Группа', '')
             row[3].text = student.get('№ зач. книжки', '')
@@ -116,19 +121,3 @@ class ExamReportProcessor(DocumentProcessor):
                     tcBorders.append(border)
 
                 tcPr.append(tcBorders)
-
-                # Применение границ к каждой объединенной ячейке
-                for merge_cell in cell._element.xpath('.//w:tc'):
-                    tcPr = merge_cell.get_or_add_tcPr()
-                    tcBorders = OxmlElement('w:tcBorders')
-
-                    for border_name in borders:
-                        border = OxmlElement(f'w:{border_name}')
-                        border.set(qn('w:val'), 'single')
-                        border.set(qn('w:sz'), '4')
-                        border.set(qn('w:space'), '0')
-                        border.set(qn('w:color'), 'auto')
-                        tcBorders.append(border)
-
-                    tcPr.append(tcBorders)
-
