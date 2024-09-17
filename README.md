@@ -53,15 +53,28 @@
 
 
 
-#### 4. `processors/sovet_report_processor.py`
+#### 4. `processors/advice_report_processor.py`
 
-Класс `SovetReportProcessor` — процессор для создания отчета по совету.
+Класс `AdviceReportProcessor` — методы для создания отчета по научному совету.
 
 
-#### 5. `utils/file_utils.py`
+#### 5. `processors/employee_report_processor.py`
+
+Класс `EmployeeReportProcessor` — методы для создания отчета по сотрудникам.
+
+
+#### 6. `processors/student_report_processor.py`
+
+Класс `StudentReportProcessor` — методы для создания отчета по студентам.
+
+
+#### 7. `utils/file_utils.py`
 
 Утилитарные функции для работы с файлами, такие как:
 - `convert_docx_to_pdf(docx_path)`: Конвертация документа DOCX в PDF с использованием библиотеки `docx2pdf`.
+
+
+
 
 ### Флаги для экзамена
 ```
@@ -95,24 +108,4 @@
 `${table}` - данная таблица должна быть динамической, ее размеры (кол-во строк) полностью зависят от количества студентов, пришедших на экзамен
  
 `${p1000}`- не понятно для чего нужна данный флаг, если на его месте всегда стоит один и тот же текст: 'декан факультета'
-### Расширение проекта
 
-Чтобы добавить новый сценарий обработки документа, выполните следующие шаги:
-
-1. **Создайте новый процессор**: В директории `processors` создайте новый файл, например, `new_report_processor.py`.
-2. **Создайте класс-процессор**: В новом файле создайте класс, который наследует от `DocumentProcessor` и реализует все необходимые методы (`process()`, `replace_flags()`, `insert_table()` и т.д.).
-3. **Импортируйте класс в `main.py`**: Импортируйте новый класс в `main.py` и добавьте логику для его выбора и запуска.
-4. **Добавьте тесты и шаблоны**: Если необходимо, добавьте новые шаблоны документов в директорию `templates` и соответствующие тесты.
-
-### Пример добавления нового сценария
-
-```python
-# main.py 
-
-from processors.new_report_processor import NewReportProcessor
-
-def main():
-    # Логика для выбора нового процессора
-    processor = NewReportProcessor(template_path, output_path, replacements, data)
-    if processor.process():
-        convert_docx_to_pdf(output_path)

@@ -1,4 +1,4 @@
-from processors import ExamReportProcessor
+from processors import ExamReportProcessor,AdviceReportProcessor,StudentReportProcessor,EmployeeReportProcessor
 from utils import convert_docx_to_pdf
 import os
 import random
@@ -7,16 +7,17 @@ from datetime import datetime
 
 def main():
     # путь к шаблону
-    template_path = "templates/24_form_22.docx"
+    template_path = "templates/advice/24_form_20.docx"
 
-    # template_filename = os.path.basename(template_path) # получение только названия файла, для удобного сохранения файла
+    template_filename = template_path.split('/') # получение названия директории, для удобного сохранения файла
+
+    # name_file_word = f"{template_filename[1]}_{datetime.today().date()}_{random.randrange(10 ** 8, 10 ** 10)}.docx" # создание названия файла
+    name_file_word = f"{template_filename[1]}_{datetime.today().date()}.docx" # создание названия файла, для вывода в будущем
 
     # путь для сохранения документа
     download_path = os.path.join(os.path.expanduser('~'), 'Downloads')
-    output_path = os.path.join(download_path, f"exm_{datetime.today().date()}.docx")
+    output_path = os.path.join(download_path, f"{name_file_word}")
 
-    # output_path = os.path.join(download_path,
-    #                            f"exm_{datetime.today().date()}_{random.randrange(10 ** 8, 10 ** 10)}.docx")
 
     # Пример значений для замены
     replacements = {
@@ -75,6 +76,9 @@ def main():
             'Подпись экзаменатора': ''
         }
     ]
+
+    print(name_file_word)
+
 
     # Выбираем и запускаем нужный процессор
     processor = ExamReportProcessor(template_path, output_path, replacements, students_data)

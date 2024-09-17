@@ -30,9 +30,11 @@ class ExamReportProcessor(DocumentProcessor):
             for flag, value in self.replacements.items():
                 if flag in paragraph.text:
                     paragraph.text = paragraph.text.replace(flag, str(value))
-        if len(self.doc.tables):
-            print("есть таблица")
-        else:print("нет таблицы")
+
+        # Поиск таблицы
+        # if len(self.doc.tables):
+        #     print("есть таблица")
+        # else:print("нет таблицы")
 
 
 
@@ -53,6 +55,9 @@ class ExamReportProcessor(DocumentProcessor):
         """Создание таблицы с границами и правильным форматированием столбцов."""
         # Создаем таблицу с двумя строками для заголовков и количеством столбцов 7
         table = self.doc.add_table(rows=2, cols=7)
+
+        # Устанавливаем стиль таблицы для добавления границ ко всем ячейкам
+        # table.style = 'Table Grid'
 
         # Объединяем ячейки для заголовка "Экзаменационная оценка"
         table.cell(0, 4).merge(table.cell(0,5))
@@ -91,9 +96,10 @@ class ExamReportProcessor(DocumentProcessor):
 
 
         # Устанавливаем ширину столбцов
-        for col in table.columns:
+        widths = [0.1, 2, 0.4, 0.4, 1, 1, 1]  # Пример ширины для каждого столбца в дюймах
+        for i, col in enumerate(table.columns):
             for cell in col.cells:
-                cell.width = Inches(1)  # Пример ширины, можно подкорректировать
+                cell.width = Inches(widths[i])
 
         # Добавляем границы к таблице
         # table.style = 'Table Grid'
@@ -102,16 +108,26 @@ class ExamReportProcessor(DocumentProcessor):
         return table
 
     def add_table_borders(self, table):
-    #     """Добавление границ к таблице."""
+        """Добавление границ к таблице."""
         for row in table.rows:
             for cell in row.cells:
                 tcPr = cell._element.get_or_add_tcPr()
                 tcBorders = OxmlElement('w:tcBorders')
-                for border_name in ['top', 'left', 'bottom', 'right']:
+
+                # Создаем границы для каждой стороны ячейки
+                borders = {
+                    'top': 'single',
+                    'left': 'single',
+                    'bottom': 'single',
+                    'right': 'single'
+                }
+
+                for border_name, border_val in borders.items():
                     border = OxmlElement(f'w:{border_name}')
-                    border.set(qn('w:val'), 'single')
-    #                 border.set(qn('w:sz'), '4')
-    #                 border.set(qn('w:space'), '0')
-    #                 border.set(qn('w:color'), 'auto')
+                    border.set(qn('w:val'), border_val)
+                    border.set(qn('w:sz'), '4')  # Толщина границы
+                    border.set(qn('w:space'), '0')
+                    border.set(qn('w:color'), 'auto')
                     tcBorders.append(border)
+
                 tcPr.append(tcBorders)

@@ -1,2 +1,5 @@
 from .exam_report_processor import ExamReportProcessor
 from .document_processor import DocumentProcessor
+from .student_report_processor import StudentReportProcessor
+from .employee_report_processor import EmployeeReportProcessor
+from .advice_report_processor import AdviceReportProcessor
