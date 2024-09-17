@@ -1,7 +1,6 @@
-from abc import ABC, abstractmethod
 from docx import Document
 
-class DocumentProcessor(ABC):
+class DocumentProcessor:
     """
     Базовый класс для обработки документов.
     """
@@ -14,11 +13,15 @@ class DocumentProcessor(ABC):
     def load_template(self):
         """Загрузка шаблона документа."""
         self.doc = Document(self.template_path)
+        print(f"Шаблон загружен: {self.template_path}")
 
-    @abstractmethod
-    def process(self):
-        """Абстрактный метод для обработки документа."""
-        pass
+    def replace_flags(self):
+        """Замена флагов в документе."""
+        for paragraph in self.doc.paragraphs:
+            for flag, value in self.replacements.items():
+                if flag in paragraph.text:
+                    paragraph.text = paragraph.text.replace(flag, str(value))
+        print("Флаги успешно заменены в документе.")
 
     def save_document(self):
         """Сохранение документа."""
