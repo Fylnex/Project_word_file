@@ -1,13 +1,15 @@
-from processors import ExamReportProcessor,AdviceReportProcessor,StudentReportProcessor,EmployeeReportProcessor
+from processors import ExamReportProcessor, CouncilReportProcessor ,StudentReportProcessor,EmployeeReportProcessor
 from utils import convert_docx_to_pdf
 import os
 import random
 from datetime import datetime
 
 
-def main():
+def report_exam():
     # путь к шаблону
-    template_path = "templates/advice/24_form_22.docx"
+    template_path = "templates/exam/24_form_22.docx"
+    # template_path="templates/exam/24_form_21.docx"
+    # template_path="templates/exam/24_form_20.docx"
 
     template_filename = template_path.split('/') # получение названия директории, для удобного сохранения файла
 
@@ -18,6 +20,8 @@ def main():
     download_path = os.path.join(os.path.expanduser('~'), 'Downloads')
     output_path = os.path.join(download_path, f"{name_file_word}")
 
+    # Даты
+    date_today = str(datetime.today().date()).split('-')
 
     # Пример значений для замены
     replacements = {
@@ -33,12 +37,12 @@ def main():
         '${s10}': 'Биоэтика',
         '${s11}': '72 часов / 2 з.ед.',
         '${s12}': 'Бухарин Василий Фёдорович',
-        '${d1}': '23',
-        '${d2}': '08',
-        '${d3}': '2024',
+        '${d1}': date_today[2],
+        '${d2}': date_today[1],
+        '${d3}': f'{date_today[0]} ',
         '${p50}': 'ФИО зав кафедры',
         '${p100}': 'ФИО декана факультета',
-        '${p1000}': 'ФИО декана факультета',
+        '${p1000}': 'Декан факультета',
         '${p201}': 'ФИО преподавателя 1',
         '${p202}': 'ФИО преподавателя 2',
         '${p203}': 'ФИО преподавателя 3',
@@ -90,5 +94,62 @@ def main():
     if processor.process():
         convert_docx_to_pdf(output_path)
 
+def report_council():
+
+    # путь к шаблону
+    template_path = "templates/council/form_app_05.docx"
+
+
+    template_filename = template_path.split('/')  # получение названия директории, для удобного сохранения файла
+
+    # name_file_word = f"{template_filename[1]}_{datetime.today().date()}_{random.randrange(10 ** 8, 10 ** 10)}.docx" # создание названия файла
+    name_file_word = f"{template_filename[1]}_{datetime.today().date()}.docx"  # создание названия файла, для вывода в будущем
+
+    # путь для сохранения документа
+    download_path = os.path.join(os.path.expanduser('~'), 'Downloads')
+    output_path = os.path.join(download_path, f"{name_file_word}")
+
+
+    # Даты
+    date_today =str(datetime.today().date()).split('-')
+
+    # Замены в шаблоне
+    replacements = {
+        '${d1}': date_today[2],
+        '${d2}': date_today[1],
+        '${d3}': date_today[0],
+
+    }
+
+    # Пример данных участников совета
+    employees_data = [
+        {
+            'ФИО': 'Абдрахимов Радик Робертович',
+            'Ученая степень': 'доцент',
+            'Должность': 'старший преподаватель',
+            'Организация': 'ИТМО',
+            'Подпись': '',
+        },
+        {
+            'ФИО': 'Абдрахимов Радик Робертович',
+            'Ученая степень': 'доцент',
+            'Должность': 'старший преподаватель',
+            'Организация': 'ИТМО',
+            'Подпись': '',
+        },
+        {
+            'ФИО': 'Абдрахимов Радик Робертович',
+            'Ученая степень': 'доцент',
+            'Должность': 'старший преподаватель',
+            'Организация': 'ИТМО',
+            'Подпись': '',
+        },
+    ]
+
+    processor = CouncilReportProcessor(template_path, output_path, replacements, employees_data)
+    if processor.process():
+        convert_docx_to_pdf(output_path)
+
+
 if __name__ == "__main__":
-    main()
+    report_council()

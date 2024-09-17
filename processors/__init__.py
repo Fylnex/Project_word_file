@@ -2,4 +2,4 @@ from .exam_report_processor import ExamReportProcessor
 from .document_processor import DocumentProcessor
 from .student_report_processor import StudentReportProcessor
 from .employee_report_processor import EmployeeReportProcessor
-from .council_report_processor import СouncilReportProcessor
+from .council_report_processor import CouncilReportProcessor

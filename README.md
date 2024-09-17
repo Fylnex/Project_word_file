@@ -11,10 +11,10 @@
     ├── main.py # Основной скрипт для запуска 
     │
     ├── processors│ 
-    │             ├── init.py                     # Инициализация пакета 
-    │             ├── document_processor.py       # Базовый класс для обработки документов 
-    │             ├── exam_report_processor.py    # Класс для обработки отчета по экзамену 
-    │             └── other_report_processor.py   # Пример для обработки других отчетов 
+    │             ├── init.py                       # Инициализация пакета 
+    │             ├── document_processor.py         # Базовый класс для обработки документов 
+    │             ├── exam_report_processor.py      # Класс для обработки отчета по экзамену 
+    │             └── counsil_report_processor.py   # Класс для обработки научного совета 
     ├── utils│   
     │        ├── init.py       # Инициализация пакета 
     │        └── file_utils.py # Утилитарные функции для работы с файлами 
@@ -53,9 +53,9 @@
 
 
 
-#### 4. `processors/advice_report_processor.py`
+#### 4. `processors/counsil_report_processor.py`
 
-Класс `AdviceReportProcessor` — методы для создания отчета по научному совету.
+Класс `CounsilReportProcessor` — методы для создания отчета по научному совету.
 
 
 #### 5. `processors/employee_report_processor.py`
