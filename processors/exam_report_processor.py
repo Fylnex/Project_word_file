@@ -55,12 +55,9 @@ class ExamReportProcessor(DocumentProcessor):
         """Создание таблицы с границами и правильным форматированием столбцов."""
         # Создаем таблицу с двумя строками для заголовков и количеством столбцов 7
         table = self.doc.add_table(rows=2, cols=7)
-
-        # Устанавливаем стиль таблицы для добавления границ ко всем ячейкам
-        # table.style = 'Table Grid'
-
+        self.add_table_borders(table)
         # Объединяем ячейки для заголовка "Экзаменационная оценка"
-        table.cell(0, 4).merge(table.cell(0,5))
+        table.cell(0, 4).merge(table.cell(0, 5))
 
         # Объединяем заголовки с ячейками во втором ряду для других столбцов
         table.cell(0, 0).merge(table.cell(1, 0))  # №
@@ -69,17 +66,15 @@ class ExamReportProcessor(DocumentProcessor):
         table.cell(0, 3).merge(table.cell(1, 3))  # № зач. книжки
         table.cell(0, 6).merge(table.cell(1, 6))  # Подпись экзаменатора
 
-
-
-        # заголовки для второй строки
-        subheaders = ['№', 'Фамилия и инициалы', 'Группа', '№ зач. книжки', 'цифрой', 'прописью', 'Подпись экзаменатора']
+        # Заголовки для второй строки
+        subheaders = ['№', 'Фамилия и инициалы', 'Группа', '№ зач. книжки', 'цифрой', 'прописью',
+                      'Подпись экзаменатора']
         for i, subheader in enumerate(subheaders):
             table.cell(1, i).text = subheader
 
-        # заголовки для первой строки после объединения
-        headers = ['Экзаменационная оценка',]
-        table.cell(0,4).text = headers
-
+        # Заголовки для первой строки после объединения
+        headers = ['Экзаменационная оценка']
+        table.cell(0, 4).text = headers[0]
 
         # Добавляем строки для каждого студента
         for student in self.students_data:
@@ -92,42 +87,48 @@ class ExamReportProcessor(DocumentProcessor):
             row[5].text = student.get('Экзаменационная оценка прописью', '')
             row[6].text = student.get('Подпись экзаменатора', '')
 
-
-
-
         # Устанавливаем ширину столбцов
-        widths = [0.1, 2, 0.4, 0.4, 1, 1, 1]  # Пример ширины для каждого столбца в дюймах
+        widths = [0.1, 4, 0.4, 0.4, 1, 1, 1]  # Пример ширины для каждого столбца в дюймах
         for i, col in enumerate(table.columns):
             for cell in col.cells:
                 cell.width = Inches(widths[i])
 
         # Добавляем границы к таблице
-        # table.style = 'Table Grid'
         self.add_table_borders(table)
 
         return table
 
     def add_table_borders(self, table):
-        """Добавление границ к таблице."""
+        """Добавление границ ко всем ячейкам таблицы, включая объединенные."""
         for row in table.rows:
             for cell in row.cells:
                 tcPr = cell._element.get_or_add_tcPr()
                 tcBorders = OxmlElement('w:tcBorders')
 
-                # Создаем границы для каждой стороны ячейки
-                borders = {
-                    'top': 'single',
-                    'left': 'single',
-                    'bottom': 'single',
-                    'right': 'single'
-                }
-
-                for border_name, border_val in borders.items():
+                # Установка границ для каждой стороны ячейки
+                borders = ['top', 'left', 'bottom', 'right']
+                for border_name in borders:
                     border = OxmlElement(f'w:{border_name}')
-                    border.set(qn('w:val'), border_val)
+                    border.set(qn('w:val'), 'single')  # Тип линии
                     border.set(qn('w:sz'), '4')  # Толщина границы
                     border.set(qn('w:space'), '0')
                     border.set(qn('w:color'), 'auto')
                     tcBorders.append(border)
 
                 tcPr.append(tcBorders)
+
+                # Применение границ к каждой объединенной ячейке
+                for merge_cell in cell._element.xpath('.//w:tc'):
+                    tcPr = merge_cell.get_or_add_tcPr()
+                    tcBorders = OxmlElement('w:tcBorders')
+
+                    for border_name in borders:
+                        border = OxmlElement(f'w:{border_name}')
+                        border.set(qn('w:val'), 'single')
+                        border.set(qn('w:sz'), '4')
+                        border.set(qn('w:space'), '0')
+                        border.set(qn('w:color'), 'auto')
+                        tcBorders.append(border)
+
+                    tcPr.append(tcBorders)
+
