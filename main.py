@@ -1,3 +1,5 @@
+from itertools import count
+
 from processors import ExamReportProcessor, CouncilReportProcessor ,StudentReportProcessor,EmployeeReportProcessor
 from utils import convert_docx_to_pdf
 import os
@@ -20,7 +22,7 @@ def report_exam():
     download_path = os.path.join(os.path.expanduser('~'), 'Downloads')
     output_path = os.path.join(download_path, f"{name_file_word}")
 
-    # Даты
+    # Дата
     date_today = str(datetime.today().date()).split('-')
 
     # Пример значений для замены
@@ -86,6 +88,7 @@ def report_exam():
         }
     ]
 
+    #
     print(name_file_word)
 
 
@@ -97,7 +100,7 @@ def report_exam():
 def report_council():
 
     # путь к шаблону
-    template_path = "templates/council/form_app_05.docx"
+    template_path = "templates/council/form_app_01.docx"
 
 
     template_filename = template_path.split('/')  # получение названия директории, для удобного сохранения файла
@@ -110,41 +113,60 @@ def report_council():
     output_path = os.path.join(download_path, f"{name_file_word}")
 
 
-    # Даты
+    # Дата
     date_today =str(datetime.today().date()).split('-')
+
+    # Пример данных участников совета
+
+    employees_data = [
+        {
+            'ФАМИЛИЯ, И., О.': 'Туричин Глеб Андреевич',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': 'д.т.н., доцент',
+            'ДОЛЖНОСТЬ': 'ректор',
+
+        },
+        {
+            'ФАМИЛИЯ, И., О.': 'Сайченко  Ольга Анатольевна ',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': 'к.э.н., доцент',
+            'ДОЛЖНОСТЬ': 'проректор по ОД',
+
+        },
+        {
+            'ФАМИЛИЯ, И., О.': 'Кузнецов Денис Иванович',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': 'д.т.н., доцент',
+            'ДОЛЖНОСТЬ': 'проректор  по научной работе',
+
+        },
+        {
+            'ФАМИЛИЯ, И., О.': 'Акопян Альберт Беникович',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': '-, кап. 1-го ранга запаса',
+            'ДОЛЖНОСТЬ': 'проректор по воспитательной работе',
+
+        },
+
+        {
+            'ФАМИЛИЯ, И., О.': 'Прокопенко Андрей Петрович',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': '-',
+            'ДОЛЖНОСТЬ': 'проректор по безопасности образовательного процесса',
+
+        }
+
+
+
+
+    ]
 
     # Замены в шаблоне
     replacements = {
-        '${d1}': date_today[2],
-        '${d2}': date_today[1],
-        '${d3}': date_today[0],
+        '${d1}': f"{date_today[2]}.{date_today[1]}.{date_today[0]}", #date_today,
+        '${s1}': '08',
+        '${s2}': '24',
+        '${s3}': f'{len(employees_data)}',
+        '${s4}': f"{int(len(employees_data)*2/3)}",
 
     }
 
-    # Пример данных участников совета
-    employees_data = [
-        {
-            'ФИО': 'Абдрахимов Радик Робертович',
-            'Ученая степень': 'доцент',
-            'Должность': 'старший преподаватель',
-            'Организация': 'ИТМО',
-            'Подпись': '',
-        },
-        {
-            'ФИО': 'Абдрахимов Радик Робертович',
-            'Ученая степень': 'доцент',
-            'Должность': 'старший преподаватель',
-            'Организация': 'ИТМО',
-            'Подпись': '',
-        },
-        {
-            'ФИО': 'Абдрахимов Радик Робертович',
-            'Ученая степень': 'доцент',
-            'Должность': 'старший преподаватель',
-            'Организация': 'ИТМО',
-            'Подпись': '',
-        },
-    ]
+
 
     processor = CouncilReportProcessor(template_path, output_path, replacements, employees_data)
     if processor.process():

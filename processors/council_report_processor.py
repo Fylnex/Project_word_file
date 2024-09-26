@@ -43,6 +43,7 @@ class CouncilReportProcessor(DocumentProcessor):
                             if flag in paragraph.text:
                                 paragraph.text = paragraph.text.replace(flag, str(value))
 
+
     def insert_table(self):
         """Вставка таблицы с данными сотрудников на место флага ${table}."""
         for i, paragraph in enumerate(self.doc.paragraphs):
@@ -64,7 +65,7 @@ class CouncilReportProcessor(DocumentProcessor):
         self.add_table_borders(table)
 
         # Заголовки для второй строки
-        subheaders = ['№', 'ФИО', 'Ученая степень', 'Должность', 'Организация', 'Подпись']
+        subheaders = ['№№ ПП', 'ФАМИЛИЯ, И., О.', 'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ', 'ДОЛЖНОСТЬ', 'РАСПИСКА В ЯВКЕ НА ЗАСЕДАНИЕ СОВЕТА', 'РАСПИСКА В ПОЛУЧЕНИИ БЮЛЛЕТЕНЕЙ']
         for i, subheader in enumerate(subheaders):
             table.cell(0, i).text = subheader
 
@@ -76,14 +77,14 @@ class CouncilReportProcessor(DocumentProcessor):
             row = table.add_row().cells
             n+=1
             row[0].text = str(n)
-            row[1].text = emloyee.get('ФИО', '')
-            row[2].text = emloyee.get('Ученая степень', '')
-            row[3].text = emloyee.get('Должность', '')
-            row[4].text = emloyee.get('Организация', '')
-            row[5].text = emloyee.get('Подпись', '')
+            row[1].text = emloyee.get('ФАМИЛИЯ, И., О.', '')
+            row[2].text = emloyee.get('УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ', '')
+            row[3].text = emloyee.get('ДОЛЖНОСТЬ', '')
+            row[4].text = ''
+            row[5].text = ''
 
         # Устанавливаем ширину столбцов
-        widths = [0.1, 4, 1, 1, 1, 1, 1]  # Устанавливаем ширину для каждого столбца в дюймах
+        widths = [0.1, 4, 0.5, 0.5, 1, 1]  # Устанавливаем ширину для каждого столбца в дюймах
         for i, col in enumerate(table.columns):
             for cell in col.cells:
                 cell.width = Inches(widths[i])

@@ -88,9 +88,9 @@ class ExamReportProcessor(DocumentProcessor):
             row[1].text = student.get('Фамилия и инициалы', '')
             row[2].text = student.get('Группа', '')
             row[3].text = student.get('№ зач. книжки', '')
-            row[4].text = student.get('Экзаменационная оценка цифрой', '')
-            row[5].text = student.get('Экзаменационная оценка прописью', '')
-            row[6].text = student.get('Подпись экзаменатора', '')
+            row[4].text = ''
+            row[5].text = ''
+            row[6].text = ''
 
         # Устанавливаем ширину столбцов
         widths = [0.1, 4, 0.4, 0.4, 1, 1, 1]  # Пример ширины для каждого столбца в дюймах
