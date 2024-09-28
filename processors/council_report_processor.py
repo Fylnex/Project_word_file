@@ -71,7 +71,7 @@ class CouncilReportProcessor(DocumentProcessor):
 
 
 
-        # Добавляем строки для каждого студента
+        # Добавляем строки для каждого сотрудника
         n=0
         for emloyee in self.employees_data:
             row = table.add_row().cells

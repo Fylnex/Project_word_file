@@ -1,5 +1,3 @@
-from itertools import count
-
 from processors import ExamReportProcessor, CouncilReportProcessor ,StudentReportProcessor,EmployeeReportProcessor
 from utils import convert_docx_to_pdf
 import os
@@ -113,13 +111,15 @@ def report_exam():
     if processor.process():
         convert_docx_to_pdf(output_path)
 
+
+
 def report_council():
 
     # путь к шаблону
     template_path = "templates/council/form_app_01.docx"
 
-
-    template_filename = template_path.split('/')  # получение названия директории, для удобного сохранения файла
+    # получение названия директории
+    template_filename = template_path.split('/')
 
 
     # создание названия файла, для вывода в будущем
@@ -189,6 +189,11 @@ def report_council():
     processor = CouncilReportProcessor(template_path, output_path, replacements, employees_data)
     if processor.process():
         convert_docx_to_pdf(output_path)
+
+
+
+
+
 
 
 if __name__ == "__main__":
