@@ -111,8 +111,6 @@ def report_exam():
     if processor.process():
         convert_docx_to_pdf(output_path)
 
-
-
 def report_council():
 
     # путь к шаблону
@@ -190,6 +188,159 @@ def report_council():
     if processor.process():
         convert_docx_to_pdf(output_path)
 
+def report_student():
+
+    # путь к шаблону
+    template_path = "templates/student/form_app_01.docx"
+
+    # получение названия директории
+    template_filename = template_path.split('/')
+
+
+    # создание названия файла, для вывода в будущем
+    # name_file_word = f"{template_filename[1]}_{datetime.today().date()}_{random.randrange(10 ** 8, 10 ** 10)}.docx" # создание названия файла
+    name_file_word = f"{template_filename[1]}_{datetime.today().date()}.docx"
+
+    # путь для сохранения документа
+    download_path = os.path.join(os.path.expanduser('~'), 'Downloads')
+    output_path = os.path.join(download_path, f"{name_file_word}")
+
+
+    # Дата
+    date_today =str(datetime.today().date()).split('-')
+
+    # Пример данных участников совета
+
+    employees_data = [
+        {
+            'ФИО': 'Туричин Глеб Андреевич',
+            'Группа': 'д.т.н., доцент',
+            'Зачетная книжка': 'ректор',
+
+        },
+        {
+            'ФИО': 'Сайченко  Ольга Анатольевна ',
+            'Группа': 'к.э.н., доцент',
+            'Зачетная книжка': 'проректор по ОД',
+
+        },
+        {
+            'ФИО': 'Кузнецов Денис Иванович',
+            'Группа': 'д.т.н., доцент',
+            'Зачетная книжка': 'проректор  по научной работе',
+
+        },
+        {
+            'ФИО': 'Акопян Альберт Беникович',
+            'Группа': '-, кап. 1-го ранга запаса',
+            'Зачетная книжка': 'проректор по воспитательной работе',
+
+        },
+
+        {
+            'ФИО': 'Прокопенко Андрей Петрович',
+            'Группа': '-',
+            'Зачетная книжка': 'проректор по безопасности образовательного процесса',
+
+        }
+
+
+
+
+    ]
+
+    # Замены в шаблоне
+    replacements = {
+        '${d1}': f"{date_today[2]}.{date_today[1]}.{date_today[0]}", #date_today,
+        '${s1}': '08',
+        '${s2}': '24',
+        '${s3}': f'{len(employees_data)}',
+        '${s4}': f"{int(len(employees_data)*2/3)}",
+
+    }
+
+
+
+    processor = StudentReportProcessor(template_path, output_path, replacements, employees_data)
+    if processor.process():
+        convert_docx_to_pdf(output_path)
+
+def report_employee():
+
+    # путь к шаблону
+    template_path = "templates/employee/form_app_01.docx"
+
+    # получение названия директории
+    template_filename = template_path.split('/')
+
+
+    # создание названия файла, для вывода в будущем
+    # name_file_word = f"{template_filename[1]}_{datetime.today().date()}_{random.randrange(10 ** 8, 10 ** 10)}.docx" # создание названия файла
+    name_file_word = f"{template_filename[1]}_{datetime.today().date()}.docx"
+
+    # путь для сохранения документа
+    download_path = os.path.join(os.path.expanduser('~'), 'Downloads')
+    output_path = os.path.join(download_path, f"{name_file_word}")
+
+
+    # Дата
+    date_today =str(datetime.today().date()).split('-')
+
+    # Пример данных участников совета
+
+    employees_data = [
+        {
+            'ФАМИЛИЯ, И., О.': 'Туричин Глеб Андреевич',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': 'д.т.н., доцент',
+            'ДОЛЖНОСТЬ': 'ректор',
+
+        },
+        {
+            'ФАМИЛИЯ, И., О.': 'Сайченко  Ольга Анатольевна ',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': 'к.э.н., доцент',
+            'ДОЛЖНОСТЬ': 'проректор по ОД',
+
+        },
+        {
+            'ФАМИЛИЯ, И., О.': 'Кузнецов Денис Иванович',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': 'д.т.н., доцент',
+            'ДОЛЖНОСТЬ': 'проректор  по научной работе',
+
+        },
+        {
+            'ФАМИЛИЯ, И., О.': 'Акопян Альберт Беникович',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': '-, кап. 1-го ранга запаса',
+            'ДОЛЖНОСТЬ': 'проректор по воспитательной работе',
+
+        },
+
+        {
+            'ФАМИЛИЯ, И., О.': 'Прокопенко Андрей Петрович',
+            'УЧЕНАЯ СТЕПЕНЬ, УЧЕНОЕ ЗВАНИЕ': '-',
+            'ДОЛЖНОСТЬ': 'проректор по безопасности образовательного процесса',
+
+        }
+
+    ]
+
+    # Замены в шаблоне
+    replacements = {
+        '${d1}': f"{date_today[2]}.{date_today[1]}.{date_today[0]}", #date_today,
+        '${s1}': '08',
+        '${s2}': '24',
+        '${s3}': f'{len(employees_data)}',
+        '${s4}': f"{int(len(employees_data)*2/3)}",
+
+    }
+
+
+
+    processor = EmployeeReportProcessor(template_path, output_path, replacements, employees_data)
+    if processor.process():
+        convert_docx_to_pdf(output_path)
+
+
+
 
 
 
@@ -197,9 +348,13 @@ def report_council():
 
 
 if __name__ == "__main__":
-    a= input("1 - отчет о совете\n2 - отчет о экзамене\nВыберете состояние:")
+    a= input("1 - отчет о совете\n2 - отчет о экзамене\n3 - отчет о студенте\n4 - отчет о сотруднике\nВыберете состояние:")
     if a == '1':
         report_council()
     elif a == '2':
         report_exam()
+    elif a == '3':
+        report_student()
+    elif a == '4':
+        report_employee()
     # report_council()
