@@ -1,13 +1,30 @@
-# .gitignore
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.pdf
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+*.tmp
 
-# Исключаем файлы настроек среды разработки
+# Среда разработки
 .idea/
 .vscode/
+*.sublime-project
+*.sublime-workspace
 
-# Исключаем файлы данных и конфиденциальные файлы
-*.env
+# Операционная система
+.DS_Store
+Thumbs.db
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env/
+.Python
