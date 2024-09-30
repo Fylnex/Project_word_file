@@ -4,7 +4,7 @@ from docx.oxml.ns import qn
 from docx.shared import Inches
 
 
-class EmployeeReportProcessor(DocumentProcessor):
+class AcademicReportProcessor(DocumentProcessor):
     """
     Класс для обработки отчета по сотрудникам.
     """
