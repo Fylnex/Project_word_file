@@ -36,7 +36,8 @@ class ReportGenerator:
                 '${s10}': "ФИО1",
                 '${s20}': "ФИО2",
                 '${s30}': "ФИО3",
-                '${s100}': "ФИО преподавателя",
+                '${s101}': "должность преподавателя",
+                '${s100}': "ФИО преподавателя"
             }
 
         processor = AcademicReportProcessor(template_path, output_path, replacements, employees_data)
