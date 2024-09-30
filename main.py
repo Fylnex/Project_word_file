@@ -1,4 +1,3 @@
-
 from report import ReportGenerator
 
 if __name__ == "__main__":
