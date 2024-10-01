@@ -8,7 +8,7 @@ if __name__ == "__main__":
         "2 - Отчет об экзамене\n"
         "3 - Отчет о студенте\n"
         "4 - Отчет о сотруднике\n"
-        "Выберите вариант: "
+        "Выберите вариант ( ͡° ͜ʖ ͡°): "
     )
     if choice == '1':
         generator.council_report()
@@ -19,4 +19,4 @@ if __name__ == "__main__":
     elif choice == '4':
         generator.employee_report()
     else:
-        print("Неверный выбор")
+        print("¯\_(ツ)_/¯")
