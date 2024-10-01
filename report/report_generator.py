@@ -11,8 +11,8 @@ class ReportGenerator:
     def report_academic(self, template_path=None, replacements=None, employees_data=None, output_path=None):
         if template_path is None:
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            # template_path = os.path.join(base_dir, 'templates', 'tmp_1.docx')
-            template_path = os.path.join(base_dir, 'templates', 'tmp_2.docx')
+            template_path = os.path.join(base_dir, 'templates', 'tmp_1.docx')
+            # template_path = os.path.join(base_dir, 'templates', 'tmp_3_diploma.docx')
 
 
         n=1
