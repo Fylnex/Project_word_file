@@ -58,7 +58,6 @@ class StudentReportProcessor(DocumentProcessor):
         """Создание таблицы"""
         # Создаем таблицу с 1 строкой для заголовков и количеством столбцов 6
         table = self.doc.add_table(rows=1, cols=6)
-
         # Устанавливаем границы таблицы
         self.add_table_borders(table)
 
@@ -89,8 +88,8 @@ class StudentReportProcessor(DocumentProcessor):
 
         # Добавляем границы к таблице
         self.add_table_borders(table)
-
         return table
+
 
     def add_table_borders(self, table):
         # Добавление границ ко всем ячейкам таблицы
