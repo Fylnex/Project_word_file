@@ -11,14 +11,14 @@ class ReportGenerator:
     def report_academic(self, template_path=None, replacements=None, employees_data=None, output_path=None):
         if template_path is None:
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            template_path = os.path.join(base_dir, 'templates', 'tmp_1.docx')
-            # template_path = os.path.join(base_dir, 'templates', 'tmp_3_diploma.docx')
+            # template_path = os.path.join(base_dir, 'templates', 'tmp_1.docx')
+            template_path = os.path.join(base_dir, 'templates', 'tmp_3_diploma.docx')
 
 
         n=1
 
         if output_path is None:
-            name_file_word = f"практика_{n}.docx"
+            name_file_word = f"tmp_{datetime.today().date()}.docx"
             download_path = os.path.join(os.path.expanduser('~'), 'Downloads')
             output_path = os.path.join(download_path, f"{name_file_word}")
 
@@ -33,6 +33,7 @@ class ReportGenerator:
                 '${s2}': 'тип работы (практическая/лабораторная)',
                 '${s3}': "номер работы",
                 '${s4}': "номер группы",
+                '${s5}': "",
                 '${s10}': "ФИО1",
                 '${s20}': "ФИО2",
                 '${s30}': "ФИО3",

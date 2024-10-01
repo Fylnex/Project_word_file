@@ -3,7 +3,7 @@ from datetime import datetime
 
 if __name__ == "__main__":
     generator = ReportGenerator()
-    chois = input("1 - титул отчета, 2 - шаблон диплома: ")
+    chois = input("1 - титул отчета\n2 - шаблон диплома\nВыберите нужный вариант: ")
     if chois == "1":
         generator.report_academic(replacements = {
                     '${d1}': str(datetime.today().date()).split('-')[0],
