@@ -1,5 +1,3 @@
-from .exam_report_processor import ExamReportProcessor
-from .document_processor import DocumentProcessor
 from .student_report_processor import StudentReportProcessor
+from .document_processor import DocumentProcessor
 from .academic_report_processor import AcademicReportProcessor
-from .council_report_processor import CouncilReportProcessor
