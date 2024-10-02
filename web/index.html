@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Capitan_v1.0</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="/eel.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Capitan_v1.0</h1>
+        <form id="articleForm">
+            <h2>Информация о статье</h2>
+            <label>Название статьи:</label>
+            <input type="text" id="title" required>
+
+            <label>Авторы:</label>
+            <input type="text" id="authors" required>
+
+            <label>Аннотация:</label>
+            <textarea id="abstract" required></textarea>
+
+            <label>Ключевые слова (через запятую):</label>
+            <input type="text" id="keywords" required>
+
+            <h2>Добавить содержимое</h2>
+            <label>Текстовый параграф:</label>
+            <textarea id="paragraph"></textarea>
+
+            <label>Заголовок (h1):</label>
+            <input type="text" id="heading">
+
+            <label>Подзаголовок (h2):</label>
+            <input type="text" id="subheading">
+
+            <label>Изображение:</label>
+            <input type="file" id="image">
+
+            <label>Описание изображения:</label>
+            <input type="text" id="imageCaption">
+
+            <label>Код (Листинг):</label>
+            <textarea id="codeContent"></textarea>
+
+            <label>Название блока кода:</label>
+            <input type="text" id="codeTitle">
+
+            <label>Нумерованный список (каждый пункт с новой строки):</label>
+            <textarea id="numberedList"></textarea>
+
+            <label>Ненумерованный список (каждый пункт с новой строки):</label>
+            <textarea id="unorderedList"></textarea>
+
+            <label>Список литературы (каждый источник с новой строки):</label>
+            <textarea id="references"></textarea>
+
+            <button type="button" onclick="generateDocument()">Создать документ</button>
+        </form>
+        <div id="message"></div>
+    </div>
+    <script type="text/javascript" src="script.js"></script>
+</body>
+</html>
