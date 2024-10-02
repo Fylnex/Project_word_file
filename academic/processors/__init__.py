@@ -1,3 +1,1 @@
-from .student_report_processor import StudentReportProcessor
-from .document_processor import DocumentProcessor
 from .academic_processor import AcademicProcessor

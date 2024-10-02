@@ -2,7 +2,7 @@ from docx import Document
 from docx.shared import Pt, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.style import WD_STYLE_TYPE
-from docx.oxml.ns import qn
+import os
 
 class AcademicProcessor:
     def __init__(self):
@@ -55,6 +55,11 @@ class AcademicProcessor:
         heading2_font.bold = True
 
     def add_title(self, title, authors, abstract, keywords):
+        # Проверка наличия необходимых данных
+        if not title or not authors or not abstract or not keywords:
+            print("Ошибка: Недостаточно данных для добавления заголовка статьи.")
+            return
+
         # Добавление названия статьи
         p = self.document.add_paragraph(title, style='ArticleTitle')
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -72,55 +77,92 @@ class AcademicProcessor:
         self.document.add_paragraph(', '.join(keywords))
 
     def add_paragraph(self, text):
+        if not text:
+            print("Предупреждение: Пустой текстовый параграф не был добавлен.")
+            return
         self.document.add_paragraph(text)
 
     def add_heading(self, heading):
+        if not heading:
+            print("Предупреждение: Пустой заголовок не был добавлен.")
+            return
         self.document.add_heading(heading, level=1)
 
     def add_subheading(self, subheading):
+        if not subheading:
+            print("Предупреждение: Пустой подзаголовок не был добавлен.")
+            return
         self.document.add_heading(subheading, level=2)
 
     def add_image(self, image_path, caption):
-        self.document.add_picture(image_path, width=Inches(5))
-        last_paragraph = self.document.paragraphs[-1]
-        last_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        if not os.path.exists(image_path):
+            print(f"Ошибка: Файл изображения '{image_path}' не найден. Блок изображения не был добавлен.")
+            return
+        try:
+            self.document.add_picture(image_path, width=Inches(5))
+            last_paragraph = self.document.paragraphs[-1]
+            last_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-        # Добавление подписи к изображению
-        caption_text = f'Рисунок №{self.image_counter} – {caption}'
-        p = self.document.add_paragraph(caption_text)
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        self.image_counter += 1
+            # Добавление подписи к изображению
+            caption_text = f'Рисунок №{self.image_counter} – {caption}'
+            p = self.document.add_paragraph(caption_text)
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            self.image_counter += 1
+        except Exception as e:
+            print(f"Ошибка при добавлении изображения: {e}. Блок изображения не был добавлен.")
 
     def add_numbered_list(self, items):
+        if not items:
+            print("Предупреждение: Пустой нумерованный список не был добавлен.")
+            return
         for item in items:
-            p = self.document.add_paragraph(item, style='List Number')
+            self.document.add_paragraph(item, style='List Number')
 
     def add_unordered_list(self, items):
+        if not items:
+            print("Предупреждение: Пустой ненумерованный список не был добавлен.")
+            return
         for item in items:
-            p = self.document.add_paragraph(item, style='List Bullet')
+            self.document.add_paragraph(item, style='List Bullet')
 
     def add_code_block(self, code_title, code_content):
-        # Добавление названия блока кода
-        caption_text = f'Листинг №{self.code_counter} – {code_title}'
-        self.document.add_paragraph(caption_text, style='Normal')
+        if not code_content:
+            print("Предупреждение: Пустой блок кода не был добавлен.")
+            return
+        try:
+            # Добавление названия блока кода
+            caption_text = f'Листинг №{self.code_counter} – {code_title}'
+            self.document.add_paragraph(caption_text, style='Normal')
 
-        # Добавление самого кода
-        code_paragraph = self.document.add_paragraph(style='Normal')
-        code_paragraph.paragraph_format.left_indent = Inches(0.5)
-        code_run = code_paragraph.add_run(code_content)
-        code_run.font.name = 'Courier New'
-        code_run.font.size = Pt(10)
+            # Добавление самого кода
+            code_paragraph = self.document.add_paragraph(style='Normal')
+            code_paragraph.paragraph_format.left_indent = Inches(0.5)
+            code_run = code_paragraph.add_run(code_content)
+            code_run.font.name = 'Courier New'
+            code_run.font.size = Pt(10)
 
-        self.code_counter += 1
+            self.code_counter += 1
+        except Exception as e:
+            print(f"Ошибка при добавлении блока кода: {e}. Блок кода не был добавлен.")
 
     def add_table(self, table_data):
+        if not table_data:
+            print("Предупреждение: Пустая таблица не была добавлена.")
+            return
         # Пока заготовка для таблицы
         pass
 
     def add_bibliography(self, references):
+        if not references:
+            print("Предупреждение: Пустой список литературы не был добавлен.")
+            return
         self.document.add_heading('Список литературы', level=1)
         for ref in references:
             self.document.add_paragraph(ref, style='List Number')
 
     def save_to_word(self, file_path):
-        self.document.save(file_path)
+        try:
+            self.document.save(file_path)
+            print(f"Документ успешно сохранен по пути: {file_path}")
+        except Exception as e:
+            print(f"Ошибка при сохранении документа: {e}")

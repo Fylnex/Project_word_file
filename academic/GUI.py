@@ -1,4 +1,5 @@
-from .processors import AcademicProcessor
+from processors import AcademicProcessor
+
 
 
 processor = AcademicProcessor()
