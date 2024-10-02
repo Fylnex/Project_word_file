@@ -7,54 +7,54 @@
     <script type="text/javascript" src="/eel.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" align="center">
         <h1>Capitan_v1.0</h1>
         <form id="articleForm">
             <h2>Информация о статье</h2>
             <label>Название статьи:</label>
-            <input type="text" id="title" required>
+            <input type="text" id="title" required><br>
 
             <label>Авторы:</label>
-            <input type="text" id="authors" required>
+            <input type="text" id="authors" required><br>
 
             <label>Аннотация:</label>
-            <textarea id="abstract" required></textarea>
+            <textarea id="abstract" required></textarea><br>
 
             <label>Ключевые слова (через запятую):</label>
-            <input type="text" id="keywords" required>
+            <input type="text" id="keywords" required><br>
 
             <h2>Добавить содержимое</h2>
             <label>Текстовый параграф:</label>
-            <textarea id="paragraph"></textarea>
+            <textarea id="paragraph"></textarea><br>
 
             <label>Заголовок (h1):</label>
-            <input type="text" id="heading">
+            <input type="text" id="heading"><br>
 
             <label>Подзаголовок (h2):</label>
-            <input type="text" id="subheading">
+            <input type="text" id="subheading"><br>
 
             <label>Изображение:</label>
-            <input type="file" id="image">
+            <input type="file" id="image"><br>
 
             <label>Описание изображения:</label>
-            <input type="text" id="imageCaption">
+            <input type="text" id="imageCaption"><br>
 
             <label>Код (Листинг):</label>
-            <textarea id="codeContent"></textarea>
+            <textarea id="codeContent"></textarea><br>
 
             <label>Название блока кода:</label>
-            <input type="text" id="codeTitle">
+            <input type="text" id="codeTitle"><br>
 
             <label>Нумерованный список (каждый пункт с новой строки):</label>
-            <textarea id="numberedList"></textarea>
+            <textarea id="numberedList"></textarea><br>
 
             <label>Ненумерованный список (каждый пункт с новой строки):</label>
-            <textarea id="unorderedList"></textarea>
+            <textarea id="unorderedList"></textarea><br>
 
             <label>Список литературы (каждый источник с новой строки):</label>
-            <textarea id="references"></textarea>
+            <textarea id="references"></textarea><br>
 
-            <button type="button" onclick="generateDocument()">Создать документ</button>
+            <button type="button" onclick="generateDocument()">Создать документ</button><br>
         </form>
         <div id="message"></div>
     </div>
