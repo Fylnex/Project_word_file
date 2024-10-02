@@ -4,6 +4,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.style import WD_STYLE_TYPE
 import os
 
+
 class AcademicProcessor:
     def __init__(self):
         self.document = Document()
@@ -162,7 +163,10 @@ class AcademicProcessor:
 
     def save_to_word(self, file_path):
         try:
-            self.document.save(file_path)
+            name_file_word = os.path.splitext(os.path.basename(file_path))[0] + '.docx'
+            download_path = os.path.join(os.path.expanduser('~'), 'Downloads')
+            output_path = os.path.join(download_path, f"{name_file_word}")
+            self.document.save(output_path)
             print(f"Документ успешно сохранен по пути: {file_path}")
         except Exception as e:
             print(f"Ошибка при сохранении документа: {e}")
